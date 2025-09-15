@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Berlin Budget Barber</title>
+  <!-- Modern Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Modern CSS Reset */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Modern Color Palette */
+      --primary-color: #d4af37;
+      --primary-dark: #b8941f;
+      --secondary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --text-primary: #2c3e50;
+      --text-secondary: #7f8c8d;
+      --text-light: #ffffff;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --bg-dark: #1a1a1a;
+      --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
+      --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.15);
+      --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.2);
+      --border-radius: 12px;
+      --border-radius-lg: 20px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-display: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Modern Typography Scale */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+    h2 { font-size: clamp(2rem, 4vw, 3rem); }
+    h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+    h4 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      color: var(--text-secondary);
+    }
+
+    /* Subtle Background Pattern */
+    .parallax-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-gradient);
+      z-index: -2;
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    .parallax-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+      z-index: -1;
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    /* Modern Navigation */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: var(--transition);
+      box-shadow: var(--shadow-light);
+    }
+
+    /* Mobile Menu Toggle */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+
+    .mobile-menu-toggle:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    header.scrolled {
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: var(--shadow-medium);
+      padding: 0.75rem 2rem;
+    }
+
+    header nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    header nav a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      opacity: 0;
+      transform: translateY(-10px);
+      animation: fadeInDown 0.8s ease forwards;
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    header nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary-color);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: -1;
+    }
+
+    header nav a:nth-child(1) { animation-delay: 0.1s; }
+    header nav a:nth-child(2) { animation-delay: 0.2s; }
+    header nav a:nth-child(3) { animation-delay: 0.3s; }
+    header nav a:nth-child(4) { animation-delay: 0.4s; }
+    header nav a:nth-child(5) { animation-delay: 0.5s; }
+
+    header nav a:hover {
+      color: var(--text-light);
+      transform: translateY(-2px);
+    }
+
+    header nav a:hover::before {
+      opacity: 1;
+    }
+
+    /* Modern Hero Section */
+    .hero {
+      background: var(--bg-gradient);
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+      z-index: 0;
+    }
+
+    .hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1,
+    .hero h2,
+    .hero h3 {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease-out forwards;
+      color: var(--text-light);
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700;
+      background: linear-gradient(45deg, #ffffff, #d4af37, #ffffff);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease-out forwards, gradientShift 4s ease-in-out infinite;
+      animation-delay: 0.5s;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h2 {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      color: var(--primary-color);
+      font-weight: 600;
+      animation-delay: 1s;
+      margin-bottom: 1rem;
+    }
+
+    .hero h3 {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      animation-delay: 1.5s;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 400;
+      margin-bottom: 2rem;
+    }
+
+    /* Modern Hero Buttons */
+    .hero-buttons {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease-out forwards;
+      animation-delay: 2s;
+      margin-top: 2rem;
+    }
+
+    .hero-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      padding: 1rem 2rem;
+      border-radius: var(--border-radius-lg);
+      color: var(--text-light);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      font-size: 1rem;
+      min-width: 160px;
+      text-align: center;
+    }
+
+    .hero-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary-color);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: -1;
+    }
+
+    .hero-btn:hover {
+      color: var(--text-light);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-heavy);
+      border-color: var(--primary-color);
+    }
+
+    .hero-btn:hover::before {
+      opacity: 1;
+    }
+
+    /* Modern About Section */
+    #about {
+      background: var(--bg-secondary);
+      padding: 6rem 2rem;
+      text-align: center;
+      color: var(--text-primary);
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    #about::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(102, 126, 234, 0.05) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    #about h2 {
+      color: var(--text-primary);
+      margin-bottom: 2rem;
+      font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    #about p {
+      color: var(--text-secondary);
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+
+    #about ul {
+      list-style: none;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: left;
+      display: grid;
+      gap: 1rem;
+    }
+
+    #about li {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      padding: 1rem;
+      background: var(--bg-primary);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-light);
+      transition: var(--transition);
+    }
+
+    #about li:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    /* Animation hidden state */
+    .fade-section {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease-out;
+    }
+
+    /* Visible state */
+    .fade-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Modern Services Section */
+    #services {
+      background: var(--bg-primary);
+      padding: 6rem 2rem;
+      text-align: center;
+      color: var(--text-primary);
+    }
+
+    #services h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 3rem;
+      color: var(--text-primary);
+    }
+
+    .service-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      padding: 2.5rem 2rem;
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--shadow-light);
+      transition: var(--transition);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--primary-color);
+      transform: scaleX(0);
+      transition: var(--transition);
+    }
+
+    .card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-heavy);
+    }
+
+    /* Service Titles (HAIR, SKIN, MASSAGES) */
+    .card h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Service Items (Haircut, Hair Color, etc.) */
+    .card p {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .icon-img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1.5rem;
+      opacity: 0.8;
+      transition: var(--transition);
+    }
+
+    .card:hover .icon-img {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    /* Animation hidden state for new services */
+    .fade-service {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.9s ease-out;
+    }
+
+    /* Visible state for new services */
+    .fade-service.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Modern Service Sections */
+    .service-section {
+      background: var(--bg-primary);
+      padding: 6rem 2rem;
+      color: var(--text-primary);
+    }
+
+    .service-section:nth-child(even) {
+      background: var(--bg-secondary);
+    }
+
+    .haircut-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .haircut-text h2 {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+    }
+
+    .haircut-text p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .price-box {
+      background: var(--bg-primary);
+      border-radius: var(--border-radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-medium);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: var(--transition);
+      position: sticky;
+      top: 2rem;
+    }
+
+    .price-box:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-heavy);
+    }
+
+    .price-box h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .price-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .price-box li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--text-secondary);
+      transition: var(--transition);
+    }
+
+    .price-box li:last-child {
+      border-bottom: none;
+    }
+
+    .price-box li:hover {
+      color: var(--text-primary);
+      background: rgba(212, 175, 55, 0.05);
+      margin: 0 -1rem;
+      padding: 1rem;
+      border-radius: var(--border-radius);
+    }
+
+    .price-box li span:last-child {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    /* Fade-in animation for haircut section */
+    .fade-haircut {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease-out;
+    }
+
+    .fade-haircut.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Modern Contact Section */
+    #contact {
+      background: var(--bg-gradient);
+      color: var(--text-light);
+      padding: 6rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #contact::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+      z-index: 0;
+    }
+
+    #contact > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    #contact h2 {
+      text-align: center;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 3rem;
+      color: var(--text-light);
+    }
+
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .contact-info h3 {
+      margin-bottom: 2rem;
+      color: var(--primary-color);
+      font-size: 1.5rem;
+    }
+
+    .contact-detail {
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--border-radius);
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+    }
+
+    .contact-detail:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateX(5px);
+    }
+
+    .contact-detail i {
+      margin-right: 1rem;
+      color: var(--primary-color);
+      font-size: 1.2rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-light);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .contact-form button {
+      background: var(--primary-color);
+      color: var(--text-light);
+      border: none;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      font-size: 1rem;
+      width: 100%;
+    }
+
+    .contact-form button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary-dark);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: -1;
+    }
+
+    .contact-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-heavy);
+    }
+
+    .contact-form button:hover::before {
+      opacity: 1;
+    }
+
+    /* Modern Footer */
+    footer {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .social-links {
+      margin-bottom: 2rem;
+    }
+
+    .social-links a {
+      color: var(--text-light);
+      margin: 0 1rem;
+      font-size: 1.5rem;
+      transition: var(--transition);
+      display: inline-block;
+      padding: 0.5rem;
+      border-radius: 50%;
+    }
+
+    .social-links a:hover {
+      color: var(--primary-color);
+      transform: translateY(-3px) scale(1.1);
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    /* Modern Popup Modal */
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .popup-content {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      border-radius: var(--border-radius-lg);
+      padding: 3rem;
+      text-align: center;
+      max-width: 450px;
+      box-shadow: var(--shadow-heavy);
+      position: relative;
+      animation: fadeInUp 0.6s ease-in-out;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .popup-content h2 {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      font-size: 1.75rem;
+    }
+
+    .popup-content p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      margin-bottom: 0;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: var(--transition);
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .close-btn:hover {
+      color: var(--text-primary);
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    /* Animation Hidden State */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease-out;
+    }
+
+    /* Visible State */
+    .fade-in-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Map fade animation */
+    .map-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .fade-map {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease-out;
+      transition-delay: 0.5s; /* small delay */
+    }
+
+    .fade-map.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Keyframes */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      0% { transform: translateY(-50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeOutDown {
+      0% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .fade-out {
+      animation: fadeOutDown 0.5s forwards;
+    }
+
+    /* Performance optimizations */
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* GPU acceleration for smooth animations */
+    .parallax-bg,
+    .parallax-overlay,
+    .card,
+    .hero-btn,
+    header {
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    /* Loading state */
+    body:not(.loaded) {
+      overflow: hidden;
+    }
+
+    body:not(.loaded) .hero {
+      opacity: 0;
+    }
+
+    /* Modern Responsive Design */
+    @media (max-width: 1024px) {
+      .haircut-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      
+      .contact-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 1rem 0.5rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
+        order: 2;
+      }
+      
+      header nav {
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        order: 1;
+        flex: 1;
+      }
+      
+      header nav a {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+        flex: 0 0 auto;
+        text-align: center;
+        min-width: fit-content;
+      }
+      
+      .hero {
+        padding: 3rem 1rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+      
+      .hero-btn {
+        width: 100%;
+        max-width: 280px;
+      }
+      
+      #about,
+      #services,
+      .service-section,
+      #contact {
+        padding: 4rem 1rem;
+      }
+      
+      .service-cards {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .card {
+        padding: 2rem 1.5rem;
+      }
+      
+      .haircut-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .price-box {
+        position: static;
+      }
+      
+      .contact-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .icon-img {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .map-container iframe {
+        width: 100%;
+        height: 250px;
+      }
+
+      /* Optimize animations for mobile */
+      .card:hover {
+        transform: translateY(-3px);
+      }
+
+      .hero-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      /* Reduce parallax intensity on mobile */
+      .parallax-bg,
+      .parallax-overlay {
+        transform: translateZ(0) scale(1.05);
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 0.75rem 0.25rem;
+      }
+      
+      header nav {
+        gap: 0.25rem;
+        flex-wrap: wrap;
+      }
+      
+      header nav a {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.8rem;
+        min-width: auto;
+      }
+      
+      .hero {
+        padding-top: 5rem;
+      }
+      
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero h2 {
+        font-size: 1.1rem;
+      }
+      
+      .hero h3 {
+        font-size: 1rem;
+      }
+      
+      .card {
+        padding: 1.5rem 1rem;
+      }
+      
+      .price-box {
+        padding: 1.5rem;
+      }
+      
+      .popup-content {
+        margin: 1rem;
+        padding: 2rem;
+      }
+    }
+
+    /* Ultra-wide screens */
+    @media (min-width: 1920px) {
+      .hero h1 {
+        font-size: 5rem;
+      }
+      
+      .hero h2 {
+        font-size: 2rem;
+      }
+      
+      .hero h3 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* High DPI displays */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      .card,
+      .price-box,
+      .popup-content {
+        border-width: 0.5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Parallax Background Elements -->
+  <div class="parallax-bg"></div>
+  <div class="parallax-overlay"></div>
+
+  <!-- Navbar -->
+  <header>
+    <nav>
+      <a href="#home">HOME</a>
+      <a href="#about">ABOUT</a>
+      <a href="#services">SERVICES</a>
+      <a href="#haircut">PRICING</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <h1>BERLIN</h1>
+    <h2>BERLIN BUDGET BARBER - Paruthipattu</h2>
+    <h3>BUDGET BARBER SHOP</h3>
+    
+    <div class="hero-buttons">
+      <a href="tel:+919043098801" class="hero-btn">📞 Call Now</a>
+      <a href="#contact" class="hero-btn">📅 Book Appointment</a>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <h2 class="fade-section">About Berlin Budget Barber Shop ✂️</h2>
+    <p class="fade-section">
+      Welcome to Berlin Budget Barber Shop, the exclusive grooming and care destination for men and boys in Paruthipattu.  
+      We combine style, comfort, and affordability to give every gentleman a fresh, confident look.
+    </p>
+    <ul>
+      <li class="fade-section">💆 <b>Men's Skin Care & Facials</b> – Treatments designed to refresh and energize male skin.</li>
+      <li class="fade-section">🧖 <b>Hair Care & Spa for Men</b> – Relaxing spa therapies and expert hair care to keep you sharp.</li>
+      <li class="fade-section">💈 <b>Stylish Cuts for Men & Boys</b> – From school-ready trims to professional styles and trendy looks.</li>
+      <li class="fade-section">💵 <b>Budget-Friendly Luxury</b> – Quality services that fit every pocket.</li>
+    </ul>
+    <p class="fade-section">
+      Step in with style, walk out with confidence – because at Berlin Budget Barber Shop, it's all about men and boys looking their best.
+    </p>
+  </section>
+
+  <!-- New Services Section -->
+  <section id="services">
+    <div class="container">
+      <h2 class="fade-service">Our Services</h2>
+      <div class="service-cards">
+        
+        <div class="card fade-service">
+          <img src="images/haircut.png" alt="Hair Icon" class="icon-img">
+          <h3>HAIR</h3>
+          <p>Haircut</p>
+          <p>Hair Color</p>
+          <p>Hair Styling</p>
+        </div>
+
+        <div class="card fade-service">
+          <img src="images/skin.png" alt="Skin Icon" class="icon-img">
+          <h3>SKIN</h3>
+          <p>Gold Facial</p>
+          <p>Diamond Facial</p>
+          <p>Fruit Facial</p>
+        </div>
+
+        <div class="card fade-service">
+          <img src="images/massage.png" alt="Massage Icon" class="icon-img">
+          <h3>MASSAGES</h3>
+          <p>Spa Service</p>
+          <p>Head Massage</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Haircut Section with Price List -->
+  <section class="service-section fade-in-section">
+    <div class="haircut-container">
+      <div class="haircut-text">
+        <h2>Haircut For Men</h2>
+        <p>
+          The highly-trained stylists will give you a change–over with a new haircut, making you look more posh, professional and stylish.
+          Do you know that your haircut can swap your entire look? Yes, with the well-experienced stylists of Berlin, you can understand your
+          hair type and style your hair accordingly. The hairdresser perceives the shape of your face, hair texture, and lifestyle to give
+          you the desired look.
+        </p>
+      </div>
+      <div class="price-box">
+        <h3>Price List</h3>
+        <ul>
+          <li><span>Haircut</span> <span>₹ 100</span></li>
+          <li><span>ZERO HAIRCUT</span> <span>₹ 150</span></li>
+          <li><span>SHAVE</span> <span>₹ 50</span></li>
+          <li><span>HOT TOWEL SHAVE</span> <span>₹ 150</span></li>
+      <li><span>BEARD TRIM</span> <span>₹ 80</span></li>
+          <li><span>Kids Cut</span> <span>₹ 100</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hair Colouring Section -->
+  <section class="service-section fade-in-section">
+    <div class="haircut-container">
+      <div class="haircut-text">
+        <h2>Hair Colouring For Men</h2>
+        <p>
+          Men love to colour their hair too! The cheap and best hair salon in Chennai take this note seriously and pave the way for men to explore with bold and trendy hues.
+          The professional stylist of Cheap & Best makes suitable shade recommendation to the customers that complements their skin tone and eye colour, which is the key to achieving a great hair colour.
+        </p>
+        <p>
+          The affordable hair salon in Chennai can bring magic to your look by giving a good haircut, styling, and colouring. Their services are exceptional, and they provide the proper care and attention to men to attain their refreshing look with great hair, making them feel confident and modish.
+        </p>
+      </div>
+      <div class="price-box">
+        <h3>Price List</h3>
+        <ul>
+          <li><span>Global Hair Colour</span> <span>₹ 500</span></li>
+          <li><span>Beard Colour</span> <span>₹ 150</span></li>
+          <li><span>Cap Highlights</span> <span>₹ 700</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Facials Section -->
+  <section class="service-section fade-in-section">
+    <div class="haircut-container">
+      <div class="haircut-text">
+        <h2>Facials For Men</h2>
+        <p>
+          Men's facials cater to their skin's needs, such as shaving irritation, acne, cysts, scars, breakouts and ingrown hairs. They can choose a wide range of facials, including deep-cleansing, hydrating, and anti-ageing to improve their look and make their face feel hydrated and glimmering.
+        </p>
+        <p>
+          The professional stylist of 'Berlin' suggests suitable facials according to your skin type.
+        </p>
+      </div>
+      <div class="price-box">
+        <h3>Price List</h3>
+        <ul>
+          <li><span>GOLD FACIAL</span> <span>₹ 800</span></li>
+          <li><span>FRUIT FACIAL</span> <span>₹ 500</span></li>
+          <li><span>DIAMOND FACIAL</span> <span>₹ 1000</span></li>
+          <li><span>Cleanup</span> <span>₹ 400</span></li>
+          <li><span>DE-TAN</span> <span>₹ 300</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Head Massage Section -->
+  <section class="service-section fade-in-section">
+    <div class="haircut-container">
+      <div class="haircut-text">
+        <h2>Head Massage For Men</h2>
+        <p>
+          If you are having a rough day at home or the office, opting for a head massage from the cheap body massage in Chennai for men can ease the build-up tension from your scalp, neck and shoulders, making you feel rejuvenating.
+          If you suffer from frequent headaches or neck pains, a head massage from Berlin is for you.
+        </p>
+        <p>
+          To live a stress-free life, you should have a stress-free mindset, which you can obtain by practising these relaxation techniques.
+          Massages extract your heavy tiredness and stress caused by many factors.
+        </p>
+        <p>
+          You can also opt for spa packages comprising massages, body treatments and other services.
+        </p>
+
+        <!-- Google Map Embed with Fade Animation -->
+        <div class="map-container fade-map">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1483.9208950783207!2d80.10842275680311!3d13.09626882513461!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52630f5d6758a3%3A0xb25876c32b1bf258!2sCheap%20and%20Best%20Men&#39;s%20Salon%2C%20Paruthippattu!5e0!3m2!1sen!2sin!4v1757910611418!5m2!1sen!2sin" 
+            width="400" 
+            height="300" 
+            style="border:0; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.3);" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+
+      <div class="price-box">
+        <h3>Price List</h3>
+        <ul>
+          <li><span>Coconut Oil</span> <span>₹ 200</span></li>
+          <li><span>Almond Oil</span> <span>₹ 200</span></li>
+          <li><span>Olive Oil</span> <span>₹ 200</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="fade-in-section">
+    <h2>CONTACT US</h2>
+    <div class="contact-container">
+      <div class="contact-info">
+        <h3>Get In Touch</h3>
+        <div class="contact-detail">
+          <i>📍</i> <span>66, Poonamallee - Avadi High Rd, Paruthippattu, Srinivasa Nagar, Avadi, Tamil Nadu 600071</span>
+        </div>
+        <div class="contact-detail">
+          <i>📞</i> <span>+91 9043098801</span>
+        </div>
+        <div class="contact-detail">
+          <i>⏰</i> <span>Open: 7AM - 9PM (Monday to Saturday)</span>
+        </div>
+        <div class="contact-detail">
+          <i>⏰</i> <span>Sunday: 7AM - 9PM</span>
+        </div>
+      </div>
+      
+      <div class="contact-form">
+        <form>
+          <input type="text" placeholder="Your Name" required>
+          <input type="tel" placeholder="Your Phone Number" required>
+          <textarea placeholder="Your Message" rows="5" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="text-align: center; padding: 30px 0; background: #0a0a0a; color: #fff;">
+    <a href="https://wa.me/919043098801" target="_blank" style="text-decoration: none;">
+      <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp Chat" style="width:40px; height:40px;">
+    </a>
+    <p style="color: #aaa; margin-top: 10px;">© 2023 Berlin Budget Barber. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Popup Modal -->
+  <div class="popup" id="promoPopup">
+    <div class="popup-content">
+      <span class="close-btn" onclick="closePopup()">&times;</span>
+      <h2>🎉 Special Offer 🎉</h2>
+      <p>Vist Our Shop and Get Discount !</p>
+    </div>
+  </div>
+
+  <!-- JavaScript for Scroll Animations -->
+  <script>
+    // Parallax scrolling effect
+    let ticking = false;
+    
+    function updateParallax() {
+      const scrolled = window.pageYOffset;
+      const parallaxBg = document.querySelector('.parallax-bg');
+      const parallaxOverlay = document.querySelector('.parallax-overlay');
+      
+      if (parallaxBg && parallaxOverlay) {
+        parallaxBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+        parallaxOverlay.style.transform = `translateY(${scrolled * 0.3}px)`;
+      }
+      ticking = false;
+    }
+    
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }
+    
+    // Throttled scroll event for better performance
+    window.addEventListener('scroll', requestTick, { passive: true });
+    
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    }, { passive: true });
+
+    // Observer for fade-section elements
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        } else {
+          entry.target.classList.remove("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
+    
+    // Observer for new fade-service elements
+    const observer2 = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add("visible");
+          }, index * 200); // staggered delay
+        } else {
+          entry.target.classList.remove("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.fade-service').forEach(el => observer2.observe(el));
+    
+    // Observer for haircut section
+    const observer3 = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.fade-haircut').forEach(el => observer3.observe(el));
+    
+    // Popup modal functionality
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('promoPopup').style.display = 'flex';
+      }, 800); // 0.8s delay
+    });
+    
+    // Fade-in animation for all sections
+    const fadeInObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll(".fade-in-section").forEach((el, index) => {
+      // Add a delay to each section
+      el.style.transitionDelay = `${index * 0.3}s`; // staggered delay
+      fadeInObserver.observe(el);
+    });
+
+    // Observer for Google Map fade-in
+    const mapObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.fade-map').forEach(el => mapObserver.observe(el));
+
+    // Auto-close popup after 6 seconds
+    setTimeout(() => {
+      const popup = document.getElementById('promoPopup');
+      popup.classList.add('fade-out');
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 500); // Wait for animation to finish
+    }, 6000);
+
+    // Manual close button
+    function closePopup() {
+      const popup = document.getElementById('promoPopup');
+      popup.classList.add('fade-out');
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 500);
+    }
+
+    // Mobile performance optimizations
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      // Reduce parallax intensity on mobile
+      function updateParallaxMobile() {
+        const scrolled = window.pageYOffset;
+        const parallaxBg = document.querySelector('.parallax-bg');
+        const parallaxOverlay = document.querySelector('.parallax-overlay');
+        
+        if (parallaxBg && parallaxOverlay) {
+          parallaxBg.style.transform = `translateY(${scrolled * 0.2}px)`;
+          parallaxOverlay.style.transform = `translateY(${scrolled * 0.1}px)`;
+        }
+        ticking = false;
+      }
+      
+      // Override parallax function for mobile
+      updateParallax = updateParallaxMobile;
+      
+      // Disable some animations on mobile for better performance
+      document.documentElement.style.setProperty('--animation-duration', '0.3s');
+    }
+
+    // Respect user's motion preferences
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // Disable parallax and reduce animations
+      window.removeEventListener('scroll', requestTick);
+      document.querySelectorAll('*').forEach(el => {
+        el.style.animationDuration = '0.01ms';
+        el.style.animationIterationCount = '1';
+        el.style.transitionDuration = '0.01ms';
+      });
+    }
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Add loading animation
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+
+    // Mobile menu toggle function
+    function toggleMobileMenu() {
+      const nav = document.querySelector('header nav');
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      
+      if (nav.style.display === 'none' || nav.style.display === '') {
+        nav.style.display = 'flex';
+        nav.style.flexDirection = 'column';
+        nav.style.position = 'absolute';
+        nav.style.top = '100%';
+        nav.style.left = '0';
+        nav.style.right = '0';
+        nav.style.background = 'rgba(255, 255, 255, 0.98)';
+        nav.style.backdropFilter = 'blur(20px)';
+        nav.style.padding = '1rem';
+        nav.style.boxShadow = 'var(--shadow-medium)';
+        nav.style.borderRadius = '0 0 var(--border-radius) var(--border-radius)';
+        toggle.innerHTML = '✕';
+      } else {
+        nav.style.display = '';
+        nav.style.flexDirection = '';
+        nav.style.position = '';
+        nav.style.top = '';
+        nav.style.left = '';
+        nav.style.right = '';
+        nav.style.background = '';
+        nav.style.backdropFilter = '';
+        nav.style.padding = '';
+        nav.style.boxShadow = '';
+        nav.style.borderRadius = '';
+        toggle.innerHTML = '☰';
+      }
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      const nav = document.querySelector('header nav');
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      const header = document.querySelector('header');
+      
+      if (!header.contains(e.target) && nav.style.display === 'flex') {
+        toggleMobileMenu();
+      }
+    });
+  </script>
+
+</body>
+</html>
