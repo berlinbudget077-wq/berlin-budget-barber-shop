@@ -7,6 +7,8 @@
   <title>Berlin Budget Barber</title>
   <!-- Modern Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Elfsight Google Reviews -->
+  <script src="https://elfsightcdn.com/platform.js" async></script>
   <style>
     /* Modern CSS Reset */
     *,
@@ -590,6 +592,25 @@
       transform: translateY(0);
     }
 
+    /* Google Reviews Section */
+    #reviews {
+      background: var(--bg-secondary);
+      padding: 6rem 2rem;
+      text-align: center;
+      color: var(--text-primary);
+    }
+
+    #reviews h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 3rem;
+      color: var(--text-primary);
+    }
+
+    .reviews-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
     /* Modern Contact Section */
     #contact {
       background: var(--bg-gradient);
@@ -983,7 +1004,8 @@
       #about,
       #services,
       .service-section,
-      #contact {
+      #contact,
+      #reviews {
         padding: 4rem 1rem;
       }
       
@@ -1118,6 +1140,7 @@
       <a href="#home">HOME</a>
       <a href="#about">ABOUT</a>
       <a href="#services">SERVICES</a>
+      <a href="#reviews">REVIEWS</a>
       <a href="#haircut">PRICING</a>
       <a href="#contact">CONTACT</a>
     </nav>
@@ -1184,6 +1207,14 @@
         </div>
 
       </div>
+    </div>
+  </section>
+
+  <!-- Google Reviews Section -->
+  <section id="reviews" class="fade-in-section">
+    <h2>Customer Reviews</h2>
+    <div class="reviews-container">
+      <div class="elfsight-app-fddf1fcd-4fba-48a6-9bd7-f538018ad980" data-elfsight-app-lazy></div>
     </div>
   </section>
 
@@ -1582,4 +1613,3 @@
 </body>
 
 </html>
-
