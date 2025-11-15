@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback - Berlin Budget Barber</title>
+  <!-- Modern Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Modern CSS Reset */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Modern Color Palette */
+      --primary-color: #d4af37;
+      --primary-dark: #b8941f;
+      --secondary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --text-primary: #2c3e50;
+      --text-secondary: #7f8c8d;
+      --text-light: #ffffff;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --bg-dark: #1a1a1a;
+      --bg-gradient: linear-gradient(135deg, #000000 0%, #481469 100%);
+      --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
+      --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.15);
+      --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.2);
+      --border-radius: 12px;
+      --border-radius-lg: 20px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-display: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Modern Typography Scale */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    h2 { font-size: clamp(2rem, 4vw, 3rem); }
+
+    /* Modern Navigation */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: var(--transition);
+      box-shadow: var(--shadow-light);
+    }
+
+    header nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    header nav a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    header nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary-color);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: -1;
+    }
+
+    header nav a:hover {
+      color: var(--text-light);
+      transform: translateY(-2px);
+    }
+
+    header nav a:hover::before {
+      opacity: 1;
+    }
+
+    /* Background Pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(102, 126, 234, 0.03) 0%, transparent 50%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Feedback Section Styles */
+    #feedback {
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+      padding: 8rem 2rem 6rem;
+      text-align: center;
+      color: var(--text-primary);
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+    }
+
+    #feedback::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(140, 122, 122, 0.05) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    #feedback h2 {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      position: relative;
+      display: inline-block;
+    }
+
+    #feedback h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--primary-color);
+      border-radius: 2px;
+    }
+
+    .feedback-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 4rem;
+      font-weight: 400;
+    }
+
+    .feedback-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+
+    .feedback-card {
+      background: #000000;
+      border-radius: var(--border-radius-lg);
+      padding: 2.5rem 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .feedback-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), transparent);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .feedback-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .feedback-card:hover::before {
+      opacity: 1;
+    }
+
+    .feedback-image-container {
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 2rem;
+      border-radius: 50%;
+      background: #D9D9D9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
+      overflow: hidden;
+      position: relative;
+      transition: var(--transition);
+      border: 4px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .feedback-card:hover .feedback-image-container {
+      transform: scale(1.05);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .feedback-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: none;
+    }
+
+    .feedback-image-container.has-image img {
+      display: block;
+    }
+
+    .feedback-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      font-family: var(--font-display);
+      min-height: 1.5rem;
+      letter-spacing: 0.02em;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .feedback-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .feedback-btn {
+      background: white;
+      color: black;
+      border: none;
+      padding: 0.9rem 2rem;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+      font-size: 0.95rem;
+      font-family: var(--font-primary);
+      min-width: 150px;
+      letter-spacing: 0.01em;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feedback-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.05);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .feedback-btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .feedback-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+      background: #f8f8f8;
+    }
+
+    .feedback-btn:active {
+      transform: translateY(-1px);
+    }
+
+    /* Review Modal Styles */
+    .review-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+    }
+
+    .review-modal.active {
+      display: flex;
+    }
+
+    .review-modal-content {
+      background: var(--bg-primary);
+      border-radius: var(--border-radius-lg);
+      padding: 3rem;
+      max-width: 550px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: fadeInUp 0.4s ease-out;
+      position: relative;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .review-modal-content h3 {
+      margin-bottom: 2rem;
+      color: var(--text-primary);
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .review-form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .review-form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+      font-weight: 500;
+      font-family: var(--font-primary);
+    }
+
+    .review-form-group input,
+    .review-form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      font-family: var(--font-primary);
+      transition: var(--transition);
+    }
+
+    .review-form-group input:focus,
+    .review-form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    }
+
+    .review-form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .star-rating {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin: 1rem 0;
+      padding: 0.5rem;
+    }
+
+    .star {
+      font-size: 2.5rem;
+      color: #CCCCCC;
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    }
+
+    .star:hover {
+      color: #FFD700;
+      transform: scale(1.15);
+      text-shadow: 0 2px 4px rgba(255, 215, 0, 0.4);
+      filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.4));
+    }
+
+    .star.active {
+      color: #FFD700;
+      transform: scale(1.1);
+      text-shadow: 0 2px 6px rgba(255, 215, 0, 0.5);
+      filter: drop-shadow(0 2px 6px rgba(255, 215, 0, 0.5));
+    }
+
+    .star.active:hover {
+      transform: scale(1.2);
+    }
+
+    .star-rating-label {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+      font-weight: 500;
+      font-family: var(--font-primary);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: var(--transition);
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .modal-close:hover {
+      color: var(--text-primary);
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    /* View More Reviews Panel */
+    .reviews-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+    }
+
+    .reviews-panel.active {
+      display: flex;
+    }
+
+    .reviews-panel-content {
+      background: var(--bg-primary);
+      border-radius: var(--border-radius-lg);
+      padding: 3rem;
+      max-width: 800px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: fadeInUp 0.4s ease-out;
+      position: relative;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .reviews-panel-content h3 {
+      margin-bottom: 2rem;
+      color: var(--text-primary);
+      font-family: var(--font-display);
+      text-align: center;
+      font-size: 1.75rem;
+      font-weight: 700;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--bg-secondary);
+    }
+
+    .review-item {
+      background: var(--bg-secondary);
+      padding: 1.75rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 1.25rem;
+      border-left: 4px solid var(--primary-color);
+      transition: var(--transition);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .review-item:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .review-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .review-item-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-family: var(--font-display);
+    }
+
+    .review-item-rating {
+      color: #FFD700;
+      font-size: 1.3rem;
+      text-shadow: 0 1px 3px rgba(255, 215, 0, 0.5);
+      filter: drop-shadow(0 1px 3px rgba(255, 215, 0, 0.5));
+      font-weight: 600;
+    }
+
+    .review-item-text {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-family: var(--font-primary);
+    }
+
+    .no-reviews {
+      text-align: center;
+      color: var(--text-secondary);
+      padding: 2rem;
+      font-style: italic;
+      font-family: var(--font-primary);
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Modern Contact Section */
+    #contact {
+      background: var(--bg-gradient);
+      color: var(--text-light);
+      padding: 6rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #contact::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+      z-index: 0;
+    }
+
+    #contact > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    #contact h2 {
+      text-align: center;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 3rem;
+      color: var(--text-light);
+    }
+
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .contact-info h3 {
+      margin-bottom: 2rem;
+      color: var(--primary-color);
+      font-size: 1.5rem;
+    }
+
+    .contact-detail {
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--border-radius);
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+    }
+
+    .contact-detail:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateX(5px);
+    }
+
+    .contact-detail i {
+      margin-right: 1rem;
+      color: var(--primary-color);
+      font-size: 1.2rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-light);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .contact-form button {
+      background: var(--primary-color);
+      color: var(--text-light);
+      border: none;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      font-size: 1rem;
+      width: 100%;
+    }
+
+    .contact-form button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary-dark);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: -1;
+    }
+
+    .contact-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-heavy);
+    }
+
+    .contact-form button:hover::before {
+      opacity: 1;
+    }
+
+    /* Modern Footer */
+    footer {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .social-links {
+      margin-bottom: 2rem;
+    }
+
+    .social-links a {
+      color: var(--text-light);
+      margin: 0 1rem;
+      font-size: 1.5rem;
+      transition: var(--transition);
+      display: inline-block;
+      padding: 0.5rem;
+      border-radius: 50%;
+    }
+
+    .social-links a:hover {
+      color: var(--primary-color);
+      transform: translateY(-3px) scale(1.1);
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    @media (max-width: 1024px) {
+      .feedback-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #feedback {
+        padding: 7rem 1.5rem 4rem;
+      }
+
+      #feedback h2 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .feedback-subtitle {
+        font-size: 1rem;
+        margin-bottom: 3rem;
+      }
+
+      .contact-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .feedback-cards {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 1rem 0;
+      }
+
+      .feedback-card {
+        padding: 2rem 1.5rem;
+      }
+
+      .feedback-image-container {
+        width: 140px;
+        height: 140px;
+        margin-bottom: 1.5rem;
+      }
+
+      .feedback-name {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .feedback-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .feedback-btn {
+        width: 100%;
+        padding: 0.85rem 1.5rem;
+      }
+
+      .review-modal-content,
+      .reviews-panel-content {
+        padding: 1.5rem;
+        width: 95%;
+      }
+
+      header nav {
+        gap: 0.5rem;
+      }
+
+      header nav a {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #feedback {
+        padding: 6rem 1rem 3rem;
+      }
+
+      .feedback-card {
+        padding: 1.5rem 1rem;
+      }
+
+      .feedback-image-container {
+        width: 120px;
+        height: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <nav>
+      <a href="index.html">HOME</a>
+      <a href="index.html#about">ABOUT</a>
+      <a href="index.html#services">SERVICES</a>
+      <a href="index.html#reviews">REVIEWS</a>
+      <a href="index.html#haircut">PRICING</a>
+      <a href="feedback.html">FEEDBACK</a>
+      <a href="index.html#contact">CONTACT</a>
+    </nav>
+  </header>
+
+  <!-- Feedback Section -->
+  <section id="feedback">
+    <h2>FEEDBACK</h2>
+    <p class="feedback-subtitle">Share your experience with our service professionals</p>
+    <div class="feedback-cards">
+      <!-- Card 1 -->
+      <div class="feedback-card" data-card-id="1">
+        <div class="feedback-image-container">
+          <img id="feedback-image-1" alt="Service Person">
+        </div>
+        <div class="feedback-name" id="feedback-name-1">Suliman </div>
+        <div class="feedback-buttons">
+          <button class="feedback-btn" onclick="openReviewModal(1)">Write Review</button>
+          <button class="feedback-btn" onclick="viewMoreReviews(1)">View More</button>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="feedback-card" data-card-id="2">
+        <div class="feedback-image-container">
+          <img id="feedback-image-2" alt="Service Person">
+        </div>
+        <div class="feedback-name" id="feedback-name-2">Yameen</div>
+        <div class="feedback-buttons">
+          <button class="feedback-btn" onclick="openReviewModal(2)">Write Review</button>
+          <button class="feedback-btn" onclick="viewMoreReviews(2)">View More</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="feedback-card" data-card-id="3">
+        <div class="feedback-image-container">
+          <img id="feedback-image-3" alt="Service Person">
+        </div>
+        <div class="feedback-name" id="feedback-name-3">Fizan</div>
+        <div class="feedback-buttons">
+          <button class="feedback-btn" onclick="openReviewModal(3)">Write Review</button>
+          <button class="feedback-btn" onclick="viewMoreReviews(3)">View More</button>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="feedback-card" data-card-id="4">
+        <div class="feedback-image-container">
+          <img id="feedback-image-4" alt="Service Person">
+        </div>
+        <div class="feedback-name" id="feedback-name-4">Dhanish</div>
+        <div class="feedback-buttons">
+          <button class="feedback-btn" onclick="openReviewModal(4)">Write Review</button>
+          <button class="feedback-btn" onclick="viewMoreReviews(4)">View More</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Review Modal -->
+  <div class="review-modal" id="reviewModal">
+    <div class="review-modal-content">
+      <span class="modal-close" onclick="closeReviewModal()">&times;</span>
+      <h3>Write a Review</h3>
+      <form id="reviewForm" onsubmit="submitReview(event)">
+        <div class="review-form-group">
+          <label for="reviewerName">Your Name *</label>
+          <input type="text" id="reviewerName" required placeholder="Enter your name">
+        </div>
+        <div class="review-form-group">
+          <label for="reviewText">Your Review *</label>
+          <textarea id="reviewText" required placeholder="Write your review here..."></textarea>
+        </div>
+        <div class="review-form-group">
+          <label class="star-rating-label">Rating *</label>
+          <div class="star-rating" id="starRating">
+            <span class="star" data-rating="1">★</span>
+            <span class="star" data-rating="2">★</span>
+            <span class="star" data-rating="3">★</span>
+            <span class="star" data-rating="4">★</span>
+            <span class="star" data-rating="5">★</span>
+          </div>
+        </div>
+        <button type="submit" class="feedback-btn" style="width: 100%; margin-top: 1rem;">Submit Review</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- View More Reviews Panel -->
+  <div class="reviews-panel" id="reviewsPanel">
+    <div class="reviews-panel-content">
+      <span class="modal-close" onclick="closeReviewsPanel()">&times;</span>
+      <h3 id="reviewsPanelTitle">All Reviews</h3>
+      <div id="reviewsList"></div>
+    </div>
+  </div>
+
+  <script>
+    // Feedback Section JavaScript
+    // Store reviews for each card separately
+    let feedbackReviews = {
+      1: [],
+      2: [],
+      3: [],
+      4: []
+    };
+
+    let currentCardId = null;
+    let selectedRating = 0;
+
+    // Load reviews from localStorage on page load
+    function loadReviewsFromStorage() {
+      const stored = localStorage.getItem('feedbackReviews');
+      if (stored) {
+        try {
+          feedbackReviews = JSON.parse(stored);
+        } catch (e) {
+          console.error('Error loading reviews:', e);
+        }
+      }
+    }
+
+
+    // Initialize: Load reviews on page load
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', loadReviewsFromStorage);
+    } else {
+      loadReviewsFromStorage();
+    }
+
+    // Set default images for feedback cards
+    function setDefaultFeedbackImages() {
+      const defaultImages = {
+        1: 'images/person1.png',
+        2: 'images/profile2.png',
+        3: 'images/profile4.png',
+        4: 'images/profile5.png'
+      };
+
+      Object.keys(defaultImages).forEach(cardId => {
+        const img = document.getElementById(`feedback-image-${cardId}`);
+        if (img) {
+          const container = img.parentElement;
+          img.src = defaultImages[cardId];
+          img.onload = function() {
+            container.classList.add('has-image');
+          };
+          img.onerror = function() {
+            container.classList.remove('has-image');
+          };
+        }
+      });
+    }
+
+    // Initialize default images when page loads
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', setDefaultFeedbackImages);
+    } else {
+      setDefaultFeedbackImages();
+    }
+
+    // Open review modal
+    function openReviewModal(cardId) {
+      currentCardId = cardId;
+      selectedRating = 0;
+      document.getElementById('reviewModal').classList.add('active');
+      document.getElementById('reviewForm').reset();
+      updateStarDisplay();
+    }
+
+    // Close review modal
+    function closeReviewModal() {
+      document.getElementById('reviewModal').classList.remove('active');
+      currentCardId = null;
+      selectedRating = 0;
+    }
+
+    // Star rating functionality - using event delegation
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('star')) {
+        selectedRating = parseInt(e.target.getAttribute('data-rating'));
+        updateStarDisplay();
+      }
+    });
+
+    function updateStarDisplay() {
+      const stars = document.querySelectorAll('.star');
+      stars.forEach((star, index) => {
+        if (index < selectedRating) {
+          star.classList.add('active');
+        } else {
+          star.classList.remove('active');
+        }
+      });
+    }
+
+    // Submit review
+    function submitReview(event) {
+      event.preventDefault();
+      
+      if (!currentCardId) return;
+      
+      const name = document.getElementById('reviewerName').value.trim();
+      const review = document.getElementById('reviewText').value.trim();
+      
+      if (!name || !review) {
+        alert('Please fill in all fields');
+        return;
+      }
+      
+      if (selectedRating === 0) {
+        alert('Please select a rating');
+        return;
+      }
+      
+      // Create review object
+      const reviewData = {
+        reviewerName: name,
+        review: review,
+        rating: selectedRating,
+        date: new Date().toLocaleDateString(),
+        timestamp: new Date().toISOString()
+      };
+      
+      // Add review to storage
+      feedbackReviews[currentCardId].push(reviewData);
+      
+      // Save to localStorage for permanent storage
+      localStorage.setItem('feedbackReviews', JSON.stringify(feedbackReviews));
+      
+      // Close modal and reset
+      closeReviewModal();
+      alert('Thank you for your review!');
+    }
+
+    // View more reviews
+    function viewMoreReviews(cardId) {
+      const reviews = feedbackReviews[cardId];
+      const panel = document.getElementById('reviewsPanel');
+      const title = document.getElementById('reviewsPanelTitle');
+      const list = document.getElementById('reviewsList');
+      
+      title.textContent = `All Reviews - Service Person ${cardId}`;
+      
+      if (reviews.length === 0) {
+        list.innerHTML = '<div class="no-reviews">No reviews yet. Be the first to review!</div>';
+      } else {
+        list.innerHTML = reviews.map((review, index) => `
+          <div class="review-item">
+            <div class="review-item-header">
+              <span class="review-item-name">${review.reviewerName || review.name}</span>
+              <span class="review-item-rating">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+            </div>
+            <div class="review-item-text">${review.review}</div>
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">${review.date}</div>
+          </div>
+        `).join('');
+      }
+      
+      panel.classList.add('active');
+    }
+
+    // Close reviews panel
+    function closeReviewsPanel() {
+      document.getElementById('reviewsPanel').classList.remove('active');
+    }
+
+    // Close modals when clicking outside
+    document.getElementById('reviewModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeReviewModal();
+      }
+    });
+
+    document.getElementById('reviewsPanel').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeReviewsPanel();
+      }
+    });
+  </script>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2>CONTACT US</h2>
+    <div class="contact-container">
+      <div class="contact-info">
+        <h3>Get In Touch</h3>
+        <div class="contact-detail">
+          <i>📍</i> <span>66, Poonamallee - Avadi High Rd, Paruthippattu, Srinivasa Nagar, Avadi, Tamil Nadu 600071</span>
+        </div>
+        <div class="contact-detail">
+          <i>📞</i> <span>+91 9043098801</span>
+        </div>
+        <div class="contact-detail">
+          <i>⏰</i> <span>Open: 7AM - 9PM (Monday to Saturday)</span>
+        </div>
+        <div class="contact-detail">
+          <i>⏰</i> <span>Sunday: 7AM - 9PM</span>
+        </div>
+      </div>
+      
+      <div class="contact-form">
+        <form>
+          <input type="text" placeholder="Your Name" required>
+          <input type="tel" placeholder="Your Phone Number" required>
+          <textarea placeholder="Your Message" rows="5" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="social-links">
+      <a href="https://wa.me/919043098801" target="_blank">
+        <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp Chat" style="width:40px; height:40px;">
+      </a>
+    </div>
+    <p style="color: #aaa;">© 2023 Berlin Budget Barber. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
+
