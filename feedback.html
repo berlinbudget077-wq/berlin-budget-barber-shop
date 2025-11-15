@@ -826,6 +826,27 @@
   </style>
 </head>
 <body>
+  <!-- Toast Notification -->
+  <div id="custom-toast" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--accent-color); /* Red color for error */
+    color: var(--text-light);
+    padding: 15px 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-heavy);
+    z-index: 5000;
+    font-weight: 500;
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+    max-width: 300px;
+    text-align: center;
+  ">
+    <span id="toast-message"></span>
+  </div>
+
   <!-- Navbar -->
   <header>
     <nav>
@@ -1067,6 +1088,25 @@
       });
     }
 
+    // Function to show a custom toast notification
+    function showCustomToast(message, isError = true) {
+      const toast = document.getElementById('custom-toast');
+      const toastMessage = document.getElementById('toast-message');
+
+      toastMessage.textContent = message;
+      toast.style.background = isError ? 'var(--accent-color)' : 'var(--primary-color)'; // Red for error, Gold for success
+
+      // Show the toast
+      toast.style.opacity = '1';
+      toast.style.visibility = 'visible';
+
+      // Hide the toast after 4 seconds
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.visibility = 'hidden';
+      }, 4000);
+    }
+
     // --- FIRESTORE LOGIC --- //
     async function submitReview(event) {
       event.preventDefault();
@@ -1075,7 +1115,7 @@
       const name = document.getElementById('reviewerName').value.trim();
       const review = document.getElementById('reviewText').value.trim();
       if (!name || !review || selectedRating === 0) {
-        alert('Please fill all fields and select rating');
+        showCustomToast('Please fill all fields and select a rating.', true);
         return;
       }
 
@@ -1088,11 +1128,11 @@
           rating: selectedRating,
           createdAt: window.serverTimestamp()
         });
-        alert("Review saved!");
+        showCustomToast("Review submitted successfully!", false); // false for success color (gold)
         closeReviewModal();
       } catch (err) {
         console.error("Error saving review:", err);
-        alert("Error saving review, try again.");
+        showCustomToast("Error saving review, please try again.", true); // true for error color (red)
       }
     }
 
