@@ -199,7 +199,7 @@
     }
 
     .feedback-card {
-      background: #393232;
+      background: #000000;
       border-radius: var(--border-radius-lg);
       padding: 2.5rem 2rem;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
@@ -932,6 +932,42 @@
     </div>
   </div>
 
+  <!-- FIREBASE IMPORTS -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, serverTimestamp } 
+        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } 
+        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+    // Your Firebase Config (paste exactly like this)
+    const firebaseConfig = {
+        apiKey: "AIzaSyAiKyCjnH48mcXT98CLdOO5M_vDITLYBRY",
+        authDomain: "barber-feedback-5825e.firebaseapp.com",
+        projectId: "barber-feedback-5825e",
+        storageBucket: "barber-feedback-5825e.firebasestorage.app",
+        messagingSenderId: "882559140210",
+        appId: "1:882559140210:web:1361f541beeeadcc261deb",
+        measurementId: "G-T0FE36F4C3"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    // Make db and storage available globally
+    window.db = db;
+    window.storage = storage;
+    window.collection = collection;
+    window.addDoc = addDoc;
+    window.getDocs = getDocs;
+    window.serverTimestamp = serverTimestamp;
+    window.ref = ref;
+    window.uploadBytes = uploadBytes;
+    window.getDownloadURL = getDownloadURL;
+  </script>
+
   <script>
     // Feedback Section JavaScript
     // Store reviews for each card separately
@@ -1158,6 +1194,4 @@
   </footer>
 </body>
 </html>
-
-
 
