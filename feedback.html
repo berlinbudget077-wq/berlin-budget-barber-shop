@@ -199,7 +199,7 @@
     }
 
     .feedback-card {
-      background: #494343;
+      background: #000000;
       border-radius: var(--border-radius-lg);
       padding: 2.5rem 2rem;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
@@ -1067,70 +1067,82 @@
       });
     }
 
-    // Submit review
-    function submitReview(event) {
+    // --- FIRESTORE LOGIC --- //
+    async function submitReview(event) {
       event.preventDefault();
-      
       if (!currentCardId) return;
-      
+
       const name = document.getElementById('reviewerName').value.trim();
       const review = document.getElementById('reviewText').value.trim();
-      
-      if (!name || !review) {
-        alert('Please fill in all fields');
+      if (!name || !review || selectedRating === 0) {
+        alert('Please fill all fields and select rating');
         return;
       }
-      
-      if (selectedRating === 0) {
-        alert('Please select a rating');
-        return;
+
+      // Save review to Firestore
+      try {
+        await window.addDoc(window.collection(window.db, "feedback"), {
+          cardId: currentCardId,
+          name: name,
+          review: review,
+          rating: selectedRating,
+          createdAt: window.serverTimestamp()
+        });
+        alert("Review saved!");
+        closeReviewModal();
+      } catch (err) {
+        console.error("Error saving review:", err);
+        alert("Error saving review, try again.");
       }
-      
-      // Create review object
-      const reviewData = {
-        reviewerName: name,
-        review: review,
-        rating: selectedRating,
-        date: new Date().toLocaleDateString(),
-        timestamp: new Date().toISOString()
-      };
-      
-      // Add review to storage
-      feedbackReviews[currentCardId].push(reviewData);
-      
-      // Save to localStorage for permanent storage
-      localStorage.setItem('feedbackReviews', JSON.stringify(feedbackReviews));
-      
-      // Close modal and reset
-      closeReviewModal();
-      alert('Thank you for your review!');
     }
 
-    // View more reviews
-    function viewMoreReviews(cardId) {
-      const reviews = feedbackReviews[cardId];
-      const panel = document.getElementById('reviewsPanel');
-      const title = document.getElementById('reviewsPanelTitle');
+    async function viewMoreReviews(cardId) {
+      currentCardId = cardId;
       const list = document.getElementById('reviewsList');
+      const title = document.getElementById('reviewsPanelTitle');
+      const panel = document.getElementById('reviewsPanel');
       
-      title.textContent = `All Reviews - Service Person ${cardId}`;
-      
-      if (reviews.length === 0) {
-        list.innerHTML = '<div class="no-reviews">No reviews yet. Be the first to review!</div>';
-      } else {
-        list.innerHTML = reviews.map((review, index) => `
-          <div class="review-item">
-            <div class="review-item-header">
-              <span class="review-item-name">${review.reviewerName || review.name}</span>
-              <span class="review-item-rating">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
-            </div>
-            <div class="review-item-text">${review.review}</div>
-            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">${review.date}</div>
-          </div>
-        `).join('');
+      // Get service person name
+      const personName = document.getElementById(`feedback-name-${cardId}`).textContent;
+      title.textContent = `All Reviews - ${personName}`;
+
+      // Fetch reviews from Firestore for this card
+      try {
+        const snapshot = await window.getDocs(window.collection(window.db, "feedback"));
+        const reviews = snapshot.docs
+          .map(doc => ({ id: doc.id, ...doc.data() }))
+          .filter(r => r.cardId == cardId)
+          .sort((a, b) => {
+            if (b.createdAt && a.createdAt) {
+              return b.createdAt.seconds - a.createdAt.seconds;
+            }
+            return 0;
+          });
+
+        if (reviews.length === 0) {
+          list.innerHTML = `<div class="no-reviews">No reviews yet.</div>`;
+        } else {
+          list.innerHTML = reviews.map(r => {
+            const date = r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleDateString() : '';
+            return `
+              <div class="review-item">
+                <div class="review-item-header">
+                  <span class="review-item-name">${r.name}</span>
+                  <span class="review-item-rating">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+                </div>
+                <div class="review-item-text">${r.review}</div>
+                ${date ? `<div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">${date}</div>` : ''}
+              </div>
+            `;
+          }).join('');
+        }
+
+        panel.classList.add('active');
+      } catch (err) {
+        console.error("Error loading reviews:", err);
+        list.innerHTML = `<div class="no-reviews">Failed to load reviews.</div>`;
+        panel.classList.add('active');
       }
-      
-      panel.classList.add('active');
     }
 
     // Close reviews panel
@@ -1194,5 +1206,4 @@
   </footer>
 </body>
 </html>
-
 
